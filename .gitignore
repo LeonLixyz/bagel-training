@@ -10,7 +10,8 @@ tests
 gradio.sh
 models
 bagel_example
-h200-ckpt*/
+h200-ckpt-0000500/
+h200-ckpt-00001000/
 MathVista*
 mmmu*
 new_eval
