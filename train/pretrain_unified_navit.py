@@ -621,6 +621,11 @@ def main():
             loss_dict["mse"] = torch.tensor(0, device=device)
             total_mse_tokens = torch.tensor(0, device=device)
 
+        # Skip training step if loss is NaN
+        if torch.isnan(loss):
+            logger.warning(f"Step {curr_step}: Loss is NaN, skipping this step")
+            continue
+
         optimizer.zero_grad()
         loss.backward()
         total_norm = fsdp_model.clip_grad_norm_(training_args.max_grad_norm)

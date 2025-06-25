@@ -263,6 +263,39 @@ class Bagel(PreTrainedModel):
 
         return generation_input, newlens, new_rope
 
+    def prepare_think_prompts(self, curr_kvlens, curr_rope, prompts, tokenizer, new_token_ids):
+        packed_text_ids = list()
+        packed_text_position_ids = list()
+        text_token_lens = list()
+        packed_text_indexes = list()
+        packed_key_value_indexes = list()
+
+        curr = 0
+        newlens, new_rope = list(), list()
+        for prompt, curr_kvlen, curr_position_id in zip(prompts, curr_kvlens, curr_rope):
+            packed_key_value_indexes.extend(range(curr, curr + curr_kvlen))
+            curr += curr_kvlen
+
+            text_ids = tokenizer.encode(prompt)
+            text_token_lens.append(len(text_ids))
+            packed_text_ids.extend(text_ids)
+            packed_text_position_ids.extend(range(curr_position_id, curr_position_id + len(text_ids)))
+            packed_text_indexes.extend(range(curr, curr + len(text_ids)))
+            newlens.append(curr_kvlen + len(text_ids))
+            new_rope.append(curr_position_id + len(text_ids))
+            curr += len(text_ids)
+
+        generation_input = {
+            "text_token_lens": torch.tensor(text_token_lens, dtype=torch.int),
+            "packed_text_ids": torch.tensor(packed_text_ids, dtype=torch.long),
+            "packed_text_position_ids": torch.tensor(packed_text_position_ids, dtype=torch.long),
+            "packed_text_indexes": torch.tensor(packed_text_indexes, dtype=torch.long),
+            "packed_key_value_indexes": torch.tensor(packed_key_value_indexes, dtype=torch.long),
+            "key_values_lens": torch.tensor(curr_kvlens, dtype=torch.int),
+        }
+
+        return generation_input, newlens, new_rope
+
     @torch.no_grad
     def forward_cache_update_text(
         self,
@@ -893,15 +926,22 @@ class Bagel(PreTrainedModel):
         packed_start_tokens: torch.LongTensor,
         packed_query_position_ids: torch.LongTensor,
         max_length: int,
-        do_sample: bool = False,
+        do_sample: bool = True,
         temperature: float = 1.0,
+        repetition_penalty: float = 1.2,
         end_token_id: int = None,
     ):
         step = 0
         generated_sequence = []
         curr_tokens = packed_start_tokens
+        
+        # Keep track of all generated tokens for repetition penalty
+        all_generated_tokens = []
+        
         while step < max_length:
             generated_sequence.append(curr_tokens)
+            all_generated_tokens.extend(curr_tokens.tolist())
+            
             packed_text_embedding = self.language_model.model.embed_tokens(curr_tokens)
             query_lens = torch.ones_like(curr_tokens)
             packed_query_indexes = torch.cumsum(key_values_lens, dim=0) + torch.arange(
@@ -934,6 +974,17 @@ class Bagel(PreTrainedModel):
             past_key_values = output.past_key_values
             packed_query_sequence = output.packed_query_sequence
             pred_logits = self.language_model.lm_head(packed_query_sequence)
+
+            # Apply repetition penalty
+            if repetition_penalty != 1.0 and len(all_generated_tokens) > 0:
+                for token_id in set(all_generated_tokens):
+                    # If the score is positive, divide by penalty (reduce probability)
+                    # If the score is negative, multiply by penalty (make it more negative)
+                    for batch_idx in range(pred_logits.shape[0]):
+                        if pred_logits[batch_idx, token_id] > 0:
+                            pred_logits[batch_idx, token_id] /= repetition_penalty
+                        else:
+                            pred_logits[batch_idx, token_id] *= repetition_penalty
 
             if do_sample:
                 probs = nn.functional.softmax(pred_logits / temperature, dim=-1)
@@ -977,6 +1028,16 @@ class Bagel(PreTrainedModel):
                 )
                 
                 pred_logits = self.language_model.lm_head(output.packed_query_sequence)
+                
+                # Apply repetition penalty for the lookahead token as well
+                if repetition_penalty != 1.0 and len(all_generated_tokens) > 0:
+                    for token_id in set(all_generated_tokens):
+                        for batch_idx in range(pred_logits.shape[0]):
+                            if pred_logits[batch_idx, token_id] > 0:
+                                pred_logits[batch_idx, token_id] /= repetition_penalty
+                            else:
+                                pred_logits[batch_idx, token_id] *= repetition_penalty
+                
                 if do_sample:
                     probs = nn.functional.softmax(pred_logits / temperature, dim=-1)
                     next_token = torch.multinomial(probs, num_samples=1).squeeze(1)
@@ -1004,6 +1065,7 @@ class Bagel(PreTrainedModel):
         max_length: int,
         do_sample: bool = False,
         temperature: float = 1.0,
+        repetition_penalty: float = 1.0,
     ):
         device = next(self.parameters()).device
 
@@ -1059,6 +1121,7 @@ class Bagel(PreTrainedModel):
                 max_length=max_length,
                 do_sample=do_sample,
                 temperature=temperature,
+                repetition_penalty=repetition_penalty,
                 end_token_id=new_token_ids['eos_token_id'],
                 **generation_input,
             )

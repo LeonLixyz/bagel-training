@@ -10,3 +10,8 @@ tests
 gradio.sh
 models
 bagel_example
+h200-ckpt*/
+MathVista*
+mmmu*
+new_eval
+__MACOSX/

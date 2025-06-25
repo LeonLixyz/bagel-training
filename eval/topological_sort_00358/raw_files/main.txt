@@ -1,0 +1,19 @@
+QUESTION:
+Provide a valid topological order. [problem_image_1]
+
+REASONING TRACE:
+Algorithm: Finding a topological ordering using Kahn's algorithm.
+A topological sort of a directed acyclic graph (DAG) is a linear ordering of its nodes such that for every directed edge (u,v), node u comes before node v in the ordering.
+Kahn's algorithm works by repeatedly removing nodes with zero in-degree (nodes with no incoming edges) and their outgoing edges.
+When we remove a node and its edges, other nodes may become zero in-degree and eligible for removal.
+Initial zero in-degree nodes: [3, 0, 2]. These have no dependencies and can be processed first.
+Step 1: Removed node 0 from the zero in-degree list and added it to our topological order. Current order: [0]. No nodes became zero in-degree in this step. Current zero in-degree list: [2, 3]. [reasoning_image_1]
+Step 2: Removed node 2 from the zero in-degree list and added it to our topological order. Current order: [0, 2]. Removed outgoing edges from 2 to [4] and decremented their in-degrees. Nodes that now have zero in-degree: [4]. These are added to the zero in-degree list: [3, 4]. [reasoning_image_2]
+Step 3: Removed node 3 from the zero in-degree list and added it to our topological order. Current order: [0, 2, 3]. Removed outgoing edges from 3 to [1] and decremented their in-degrees. Nodes that now have zero in-degree: [1]. These are added to the zero in-degree list: [1, 4]. [reasoning_image_3]
+Step 4: Removed node 1 from the zero in-degree list and added it to our topological order. Current order: [0, 2, 3, 1]. No nodes became zero in-degree in this step. Current zero in-degree list: [4]. [reasoning_image_4]
+Step 5: Removed node 4 from the zero in-degree list and added it to our topological order. Current order: [0, 2, 3, 1, 4]. No nodes became zero in-degree in this step. Current zero in-degree list: []. [reasoning_image_5]
+Completed topological sort. All 5 nodes are included in the order, confirming the graph is acyclic.
+Final topological sort: [0, 2, 3, 1, 4]. The nodes are arranged from left to right in topological order. [reasoning_image_6]
+
+FINAL ANSWER:
+0-2-3-1-4

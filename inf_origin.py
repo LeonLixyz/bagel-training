@@ -154,15 +154,11 @@ inference_hyper=dict(
 )
 
 
-prompt = '''QUESTION:
-What is the best move for Black to play?
-
-A: Ra8
-B: Nxe4
-C: e6
-D: b6<think>'''
-image = Image.open('/home/jovyan/workspace/bagel-training/eval/chess/game_2024a/raw_files/images/problem_image_1.png')
+prompt = '''Remove all green metallic cylinders.'''
+image = Image.open('/home/jovyan/workspace/bagel-training/new_eval/image.png')
 
 print(prompt)
 print('-'*10)
-output = inferencer.interleave_inference([prompt, image], understanding_output=True, **inference_hyper)
+output = inferencer.interleave_inference([prompt, image], **inference_hyper)
+image_filename = f'reasoning_image.png'
+output[0].save(image_filename)

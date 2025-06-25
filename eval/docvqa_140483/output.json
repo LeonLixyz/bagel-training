@@ -1,0 +1,19 @@
+{
+  "response": "QUESTION:\nWhat is the heading of the document shown in the image? <image_start>[problem_image_1]<image_end>\n\nREASONING TRACE:\nTHOUGHT 0: The problem asks for the heading of the document displayed in the image.\nTHOUGHT 1: I need to locate the main title or heading, which is typically found at the top of a document. I will highlight the relevant area.\n<image_start>[reasoning_image_1]<image_end>\nTHOUGHT 2: The visual aid shows a red bounding box around the text at the top center of the document. This text appears to be the document's heading.\nTHOUGHT 3: Reading the text within the bounding box reveals the document's heading.\n\nFINAL ANSWER:\nQA SAMPLE SUBMISSION FORM",
+  "usage_details": {
+    "prompt_token_count": 1407,
+    "candidates_token_count": 174,
+    "thoughts_token_count": 470,
+    "total_token_count": 2051,
+    "prompt_tokens_details": [
+      {
+        "modality": "TEXT",
+        "token_count": 1149
+      },
+      {
+        "modality": "IMAGE",
+        "token_count": 258
+      }
+    ]
+  }
+}

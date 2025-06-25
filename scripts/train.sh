@@ -38,7 +38,8 @@ torchrun \
   --sharding_strategy="HYBRID_SHARD" \
   --wandb_project "zebra-cot" \
   --wandb_name "zebra-cot-$(date +%Y%m%d_%H%M%S)" \
-  --save_every 200 \
+  --save_every 100 \
+  --visual_gen False \
   --warmup_steps 100 \
   --total_steps 20000 \
   --results_dir /dev/shm/results/ \

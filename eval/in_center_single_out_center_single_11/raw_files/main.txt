@@ -1,0 +1,13 @@
+QUESTION:
+What pattern should replace the question mark in the 3×3 grid shown in the image? [problem_image_1]
+
+REASONING TRACE:
+THOUGHT 0: This problem has an inner pattern and an outer pattern that combine to form complete images.
+THOUGHT 1: Let's first analyze the outer pattern which forms the frame or boundary of each panel.
+[reasoning_image_1]
+THOUGHT 2: Now I need to examine the inner pattern which appears at the center of each panel.
+[reasoning_image_2]
+THOUGHT 3: Based on the identified patterns, I can now determine the correct image that should replace the question mark. The missing panel should combine the outer pattern with the inner pattern.
+
+FINAL ANSWER:
+The answer is option 2

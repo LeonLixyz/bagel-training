@@ -1,0 +1,19 @@
+{
+  "response": "QUESTION:\nWhat kind of support is being advertised for young people with chronic conditions, as shown in this poster? <image_start>[problem_image_1]<image_end>\n\nREASONING TRACE:\nTHOUGHT 0: I need to examine the poster to identify the specific type of support offered for youth with chronic conditions.\nTHOUGHT 1: The title of a poster typically summarizes its main topic. I will look at the top section of the poster to find the title.\n<image_start>[reasoning_image_1]<image_end>\nTHOUGHT 2: The image shows a section of the poster. The title at the very top of the full poster clearly states the type of support provided.\nTHOUGHT 3: Based on the title of the poster, the advertised support is Online Peer-to-Peer Mentoring Support.\n\nFINAL ANSWER:\nOnline Mentoring Support",
+  "usage_details": {
+    "prompt_token_count": 1658,
+    "candidates_token_count": 190,
+    "thoughts_token_count": 802,
+    "total_token_count": 2650,
+    "prompt_tokens_details": [
+      {
+        "modality": "TEXT",
+        "token_count": 1142
+      },
+      {
+        "modality": "IMAGE",
+        "token_count": 516
+      }
+    ]
+  }
+}

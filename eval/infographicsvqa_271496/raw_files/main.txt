@@ -1,0 +1,12 @@
+QUESTION:
+What is the life expectancy of females in Australia? [problem_image_1]
+
+REASONING TRACE:
+THOUGHT 0: I need to carefully analyze the image to identify the key elements related to the question.
+THOUGHT 1: I've zoomed in on a specific region that contains key information needed to answer this question.
+[reasoning_image_1]
+THOUGHT 2: This zoomed-in view (from the original coordinates [0.301, 0.414, 0.463, 0.439]) provides a clearer look at the critical details.
+THOUGHT 3: Based on my analysis of this region, I can now determine the answer to the question.
+
+FINAL ANSWER:
+84.4

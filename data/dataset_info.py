@@ -21,7 +21,6 @@ DATASET_INFO = {
             'data_dir': '/dev/shm/data/Zebra-CoT/zebra-cot-images',
             'jsonl_path': '/dev/shm/data/Zebra-CoT/zebra_cot.jsonl',
             'image_prefix_dir': '/dev/shm/data/Zebra-CoT',  # Base path for relative image paths
-            'num_total_samples': 1000,
         },
     },
 }

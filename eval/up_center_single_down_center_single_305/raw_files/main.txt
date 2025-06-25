@@ -1,0 +1,13 @@
+QUESTION:
+What pattern should replace the question mark in the 3×3 grid shown in the image? [problem_image_1]
+
+REASONING TRACE:
+THOUGHT 0: This problem has objects positioned at the top and bottom of each panel.
+THOUGHT 1: Let me begin by analyzing the objects at the top of each panel.
+[reasoning_image_1]
+THOUGHT 2: Next, I'll focus on the objects at the bottom of each panel.
+[reasoning_image_2]
+THOUGHT 3: Based on the identified patterns, I can now determine the correct image that should replace the question mark. The missing panel should combine the left/top pattern with the right/bottom pattern.
+
+FINAL ANSWER:
+The answer is option 4

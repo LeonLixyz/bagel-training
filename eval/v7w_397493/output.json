@@ -1,0 +1,19 @@
+{
+  "response": "QUESTION:\nWhat objects are stuck in the sandwich shown in the image? <image_start>[problem_image_1]<image_end>\n\nREASONING TRACE:\nTHOUGHT 0: I need to examine the image carefully to identify any objects inserted into the sandwich.\nTHOUGHT 1: To get a closer look at the objects stuck in the bread, I will focus on a specific area of the image.\n<image_start>[reasoning_image_1]<image_end>\nTHOUGHT 2: The zoomed-in image clearly shows a small wooden stick protruding from the toasted bread.\nTHOUGHT 3: Based on the appearance of the object in the close-up view, it is identifiable as a toothpick.\n\nFINAL ANSWER:\nToothpicks.",
+  "usage_details": {
+    "prompt_token_count": 1650,
+    "candidates_token_count": 164,
+    "thoughts_token_count": 485,
+    "total_token_count": 2299,
+    "prompt_tokens_details": [
+      {
+        "modality": "TEXT",
+        "token_count": 1134
+      },
+      {
+        "modality": "IMAGE",
+        "token_count": 516
+      }
+    ]
+  }
+}

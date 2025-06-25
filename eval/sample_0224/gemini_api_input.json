@@ -1,0 +1,61 @@
+{
+  "contents": [
+    {
+      "system_prompt": "You are an expert in creating clean, coherent multimodal reasoning traces. Your task is to transform a template reasoning trace into a diverse, concise multimodal reasoning trace that correctly solves the problem.\n\n========================  INPUT  ========================\n1. Problem & Template Trace: A template with interleaved text and image placeholders:\n   - `[problem_image_X]` for original problem images (e.g., `[problem_image_1]`)\n   - `[reasoning_image_X]` for images generated during reasoning (e.g., `[reasoning_image_1]`)\n2. Image Data: The actual image data corresponding to the placeholders, provided separately.\n\n=====================  Your Task  =================\nGenerate a concise multimodal reasoning trace as **plain text**.\n\n=====================  OUTPUT FORMAT  ===================\nYou MUST generate the formatted reasoning trace with the following structure:\n\nQUESTION:\n<Rewrite the problem statement in your own words while maintaining all key information. Include image placeholders: <image_start>[problem_image_1]<image_end>, <image_start>[problem_image_2]<image_end>, etc.>\n\nREASONING TRACE:\nTHOUGHT 0: <Identify key elements of the problem>\nTHOUGHT 1: <Explain reasoning step, often why an image / sketch / visual thought is needed>\n<image_start>[reasoning_image_1]<image_end>\nTHOUGHT 2: <Explain insights from the image>\n<image_start>[reasoning_image_2]<image_end>\n// Additional thoughts and images as needed\n<image_start>[reasoning_image_X]<image_end>\nTHOUGHT N: <Summarize key insights before answer>\n\nFINAL ANSWER: \n<The final answer based on the reasoning>\n\n=====================  Guidelines  =================\n\n1. Diversifying the Template:\n   - Rewrite the problem statement and reasoning steps in your own words while preserving all key information.\n   - Vary the language and phrasing to avoid repetitive patterns.\n   - You MUST use all the images provided in the original trace.\n   - Maintain the original template's core reasoning structure and rationale while introducing textual reasoning refinements rather than substantial changes to the logical flow.\n   - Be concise and direct - avoid unnecessary wordiness while ensuring clarity.\n\n2. Multimodal Reasoning Flow:\n   - Develop a coherent, step-by-step chain of thought that seamlessly integrates textual and visual reasoning.\n   - Clearly explain the necessity of generating a sketch / visual thought / image before introducing its placeholder.\n   - After each image placeholder, describe the insights gained from the sketch / visual thought / image, and how it contributes to advancing the solution.\n   - Ensure each step logically builds on the previous ones, especially between text reasoning and visual reasoning\n   steps. \n\n3. Image Placeholders and References:\n   - Use placeholder tags ONLY when you want to actually insert/show/generate an image in your trace. When doing so, write the corresponding placeholder tag exactly as shown, including the <image_start> and <image_end> tags.\n   - Each unique image in the original problem and the reasoning trace should be represented by a unique placeholder tag, and each unique placeholder tag should only show up once in the trace.\n   - When referring to images in your explanations, use natural language descriptions (e.g., \"the diagram in the question\", \"the first sketch\", \"the visual thought X I created\") instead of using placeholder tags. This is important because it helps us to parse into interleaved text and image sequences.\n   - For images from the original problem, use: <image_start>[problem_image_X]<image_end>\n   - For sketches or visuals generated during reasoning, use: <image_start>[reasoning_image_X]<image_end>\n\n4. Narrative Style:\n   - Eliminate verbose language that do not contribute to solving the problem.\n   - Focus on the essential reasoning path that leads to the correct solution, using concise and clear language to describe the overall reasoning process.\n   - Be concise, direct, and succinct. Each Thought should be less than 50 words.\n"
+    },
+    {
+      "text": "Here is the problem and the raw reasoning trace with image placeholders:\n\n"
+    },
+    {
+      "text": "<problem_statement_and_raw_trace_start>\n\n"
+    },
+    {
+      "text": "QUESTION:\nA multi\u2011piece box jigsaw is missing part(s). Identify which option fills the hole(s). <image_start>[problem_image_1]<image_end>.\n\nREASONING TRACE:\nTHOUGHT 0: Locate the gray area(s) needing a fit.\nTHOUGHT 1: Visually test each option.\n<image_start>[reasoning_image_1]<image_end>\nTHOUGHT 2: Observation after option A.\n<image_start>[reasoning_image_2]<image_end>\nTHOUGHT 3: Observation after option B.\n<image_start>[reasoning_image_3]<image_end>\nTHOUGHT 4: Observation after option C.\n<image_start>[reasoning_image_4]<image_end>\nTHOUGHT 5: Observation after option D.\nTHOUGHT 6: Option D is seamless \u2013 it is correct.\n\nFINAL ANSWER:\nD\n\n"
+    },
+    {
+      "text": "<problem_statement_and_raw_trace_end>\n\n"
+    },
+    {
+      "text": "Below is the image data corresponding to the placeholders:\n\n"
+    },
+    {
+      "text": "<image_data_start>\n\n"
+    },
+    {
+      "text": "\nThe actual image for placeholder [problem_image_1]:"
+    },
+    {
+      "image_file_path": "/Users/leon66/Desktop/VLM Reasoning/VLM Reasoning Repo/data/parse_mmcot/parse_cot_gemini/visual_jigsaw/sample_0224/raw_files/images/problem_image_1.jpg"
+    },
+    {
+      "text": "\nThe actual image for placeholder [reasoning_image_1]:"
+    },
+    {
+      "image_file_path": "/Users/leon66/Desktop/VLM Reasoning/VLM Reasoning Repo/data/parse_mmcot/parse_cot_gemini/visual_jigsaw/sample_0224/raw_files/images/reasoning_image_1.jpg"
+    },
+    {
+      "text": "\nThe actual image for placeholder [reasoning_image_3]:"
+    },
+    {
+      "image_file_path": "/Users/leon66/Desktop/VLM Reasoning/VLM Reasoning Repo/data/parse_mmcot/parse_cot_gemini/visual_jigsaw/sample_0224/raw_files/images/reasoning_image_3.jpg"
+    },
+    {
+      "text": "\nThe actual image for placeholder [reasoning_image_2]:"
+    },
+    {
+      "image_file_path": "/Users/leon66/Desktop/VLM Reasoning/VLM Reasoning Repo/data/parse_mmcot/parse_cot_gemini/visual_jigsaw/sample_0224/raw_files/images/reasoning_image_2.jpg"
+    },
+    {
+      "text": "\nThe actual image for placeholder [reasoning_image_4]:"
+    },
+    {
+      "image_file_path": "/Users/leon66/Desktop/VLM Reasoning/VLM Reasoning Repo/data/parse_mmcot/parse_cot_gemini/visual_jigsaw/sample_0224/raw_files/images/reasoning_image_4.jpg"
+    },
+    {
+      "text": "<image_data_end>\n\n"
+    },
+    {
+      "text": "Following the instructions provided, generate the clean and logical coherent multimodal reasoning trace in the specified format referring to the raw trace and image data above."
+    }
+  ]
+}

@@ -211,8 +211,8 @@ class ThinkTraceJSONLIterableDataset(InterleavedBaseIterableDataset, Distributed
                 data = self._add_image(
                     data,
                     loaded_images[i], 
-                    need_loss=True,  # VAE generation loss
-                    need_vae=True,   # VAE conditioning
+                    need_loss=False,  # VAE generation loss
+                    need_vae=False,   # VAE conditioning
                     need_vit=True,   # VIT understanding
                     enable_cfg=True,
                 )

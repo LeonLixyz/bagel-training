@@ -12,11 +12,15 @@ from modeling.bagel.qwen2_navit import NaiveCache
 
 
 
-VLM_THINK_SYSTEM_PROMPT = '''You should first think about the reasoning process in the mind and then provide the user with the answer. 
+VLM_THINK_SYSTEM_PROMPT = '''Generation Instructions: You should first think about the reasoning process in the mind and then provide the user with the answer. 
 The reasoning process is enclosed within <think> </think> tags, i.e. <think> reasoning process here </think> answer here'''
 
-GEN_THINK_SYSTEM_PROMPT = '''You should first think about the planning process in the mind and then generate the image. 
-The planning process is enclosed within <think> </think> tags, i.e. <think> planning process here </think> image here'''
+GEN_THINK_SYSTEM_PROMPT = '''Visual Aid Generation Instructions: You should carefully think about what you should do to generate an accurate visual aid that stays faithful to the given context and input that helps
+with your reasoning. Before generating, analyze what elements should be included based only on
+the provided information, and avoid adding details that are not explicitly mentioned or
+clearly implied. Focus on accuracy over creativity. Do not conflate the visual generation
+think text with the main reasoning process. The planning process is enclosed
+within <image_gen_think> </image_gen_think> tags, i.e. <image_gen_think> planning process here </image_gen_think> image here'''
 
 
 class InterleaveInferencer:
@@ -44,6 +48,28 @@ class InterleaveInferencer:
         kv_lens = gen_context['kv_lens']
         ropes = gen_context['ropes']
         generation_input, kv_lens, ropes = self.model.prepare_prompts(
+            curr_kvlens=kv_lens,
+            curr_rope=ropes, 
+            prompts=[text],
+            tokenizer=self.tokenizer, 
+            new_token_ids=self.new_token_ids,
+        )
+
+        past_key_values = self.model.forward_cache_update_text(past_key_values, **generation_input)        
+        gen_context['kv_lens'] = kv_lens
+        gen_context['ropes'] = ropes
+        gen_context['past_key_values'] = past_key_values
+        
+        return gen_context
+
+    @torch.no_grad()
+    def update_context_think(self, text, gen_context):
+        # used for interleave data, currently only support 1 data inference, 
+
+        past_key_values = gen_context['past_key_values']
+        kv_lens = gen_context['kv_lens']
+        ropes = gen_context['ropes']
+        generation_input, kv_lens, ropes = self.model.prepare_think_prompts(
             curr_kvlens=kv_lens,
             curr_rope=ropes, 
             prompts=[text],
@@ -209,8 +235,8 @@ class InterleaveInferencer:
         input_lists: List[Union[str, Image.Image]],
         think=False,
         understanding_output=False,
-
-        max_think_token_n=1000,
+        system_prompt=None,
+        max_think_token_n=4096,
         do_sample=False,
         text_temperature=0.3,
         cfg_text_scale=3.0,
@@ -229,11 +255,7 @@ class InterleaveInferencer:
         cfg_img_context = deepcopy(gen_context)
 
         with torch.autocast(device_type="cuda", enabled=True, dtype=torch.bfloat16):
-            if think:
-                if understanding_output:
-                    system_prompt = VLM_THINK_SYSTEM_PROMPT 
-                else:
-                    system_prompt = GEN_THINK_SYSTEM_PROMPT
+            if system_prompt:
                 gen_context = self.update_context_text(system_prompt, gen_context)
                 cfg_img_context = self.update_context_text(system_prompt, cfg_img_context)
 
@@ -258,11 +280,6 @@ class InterleaveInferencer:
                 output_list.append(gen_text)
 
             else:
-                if think:
-                    gen_text = self.gen_text(gen_context, do_sample=do_sample, temperature=text_temperature, max_length=max_think_token_n)
-                    gen_context = self.update_context_text(gen_text, gen_context)
-                    output_list.append(gen_text)
-
                 img = self.gen_image(
                     image_shapes, 
                     gen_context, 
