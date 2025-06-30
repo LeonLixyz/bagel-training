@@ -29,7 +29,7 @@ from modeling.bagel.qwen2_navit import NaiveCache
 from modeling.autoencoder import load_ae
 
 # Set paths for your trained checkpoint
-checkpoint_dir = "/home/jovyan/workspace/bagel/h200-ckpt-0003600"
+checkpoint_dir = "/home/jovyan/workspace/bagel-training/h200-ckpt-0001200"
 base_model_path = "/dev/shm/models/BAGEL-7B-MoT"
 
 # Direct path to the safetensors file
@@ -194,36 +194,28 @@ inference_hyper=dict(
     cfg_renorm_type="text_channel",
 )
 
-# INTERLEAVED_SYSTEM_PROMPT = '''You are an AI reasoning assistant capable of step-by-step interleaved text and visual chain of thought. Think step by step and use visual aids to enhance your problem-solving. Once you are confident that you know the final answer, provide your final conclusion clearly in the format of "Final Answer: <answer here>"'''
-
 INTERLEAVED_SYSTEM_PROMPT = '''You are an AI reasoning assistant capable of step-by-step interleaved text and visual chain of thought. Think step by step and use visual aids to enhance your problem-solving. Provide your final conclusion clearly in the format of "Final Answer: <answer here>"'''
+
+
 # prompt = '''A multi‑piece box jigsaw is missing part(s). Identify which option fills the hole(s).'''
 # image = Image.open('/home/jovyan/workspace/bagel-training/eval/sample_12400/raw_files/images/problem_image_1.jpg')
 
 # prompt = '''What is the best move for Black to play?\n\nA: Qd6\nB: Kf8\nC: Nf4\nD: Nxe4'''
-# image = Image.open('/home/jovyan/workspace/bagel/eval/chess/game_2040/raw_files/images/problem_image_1.png')
+# image = Image.open('/home/jovyan/workspace/bagel-training/eval/chess/game_2040/raw_files/images/problem_image_1.png')
 # pdf_filename = "chess.pdf"
 
 # prompt = '''Apply the following sequence of transformations to the blue shape: scale by 2×, then translate 1 left, then translate 1 down and 2 right, then translate 2 down and 1 right, then rotate 90° clockwise. Choose the option that shows the resulting shape.'''
-# image = Image.open('/home/jovyan/workspace/bagel/new_eval/compose_8847/images/problem_image_1.jpg')
+# image = Image.open('/home/jovyan/workspace/bagel-training/new_eval/compose_8847/images/problem_image_1.jpg')
 # pdf_filename = "compose_8847.pdf"
 
 # prompt = '''Which of the figures shown bellow cannot be cut out of the figure illustrated nearby?'''
-# image = Image.open('/home/jovyan/workspace/bagel/image.jpg')
+# image = Image.open('/home/jovyan/workspace/bagel-training/image.jpg')
 # pdf_filename = "math.pdf"
 
-prompt = '''Question: Subtract all green metallic cylinders. Subtract all cyan blocks. How many objects are left?'''
-image = Image.open('/home/jovyan/workspace/bagel/new_eval/image.png')
+prompt = '''Subtract all green metallic cylinders. Subtract all cyan blocks. How many objects are left?'''
+image = Image.open('/home/jovyan/workspace/bagel-training/new_eval/image.png')
 pdf_filename = "clevr.pdf"
 
-
-# prompt = '''Hint: Please answer the question and provide the correct option letter, e.g., A, B, C, D, at the end.
-# Question: Is the number of tiny gray bicycles that are on the left side of the brown metal sedan greater than the number of things that are to the left of the tiny green bicycle?
-# Choices:
-# (A) Yes
-# (B) No'''
-# image = Image.open('/home/jovyan/workspace/bagel/image.png')
-# pdf_filename = "math_vista.pdf"
 # print(prompt)
 # print('-'*50)
 
