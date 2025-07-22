@@ -1,4 +1,4 @@
-### BAGEL Training Zebra-CoT
+### BAGEL Zebra-CoT
 
 ### Setup
 
